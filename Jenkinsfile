@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    tools { 
-        maven 'localMaven 3.5.4' 
-    }
+  
 
 stages{
         stage('Build'){
