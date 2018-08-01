@@ -1,0 +1,28 @@
+pipeline {
+    /* A Declarative Pipeline */
+    // Where the Pipeline will Run 
+
+    agent any
+
+stages{
+        stage('Init'){
+            // Stages can have one or more steps
+            steps {
+                echo " Testing ..."
+            }            
+        }
+
+        stage ('Build'){
+            steps {
+                echo "Building ...."
+            }
+        }
+
+        stage ("Deploy to Production"){
+            steps {
+                echo "Code deployed ...."        
+           }
+        }
+        
+    }
+}
