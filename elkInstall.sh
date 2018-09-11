@@ -68,46 +68,4 @@ sudo echo "8. Installation of the Elasticsearch 6.3.2 "
 sudo /bin/systemctl daemon-reload
 sudo /bin/systemctl enable elasticsearch.service
 sudo echo "9. Configure Elasticsearch to start automatically when the system boots up"
-
-# Start the Elasticsearch  Cluster
-sudo systemctl start elasticsearch.service
-# Wait for 25 Seconds 
-sleep 25s 
-sudo echo "10. Start the Elasticsearch  Cluster"
-
-# Check the status of the Cluster 
-sudo systemctl status elasticsearch.service
-sudo echo "11. Check the status of the Cluster "
-curl -X GET "localhost:9200/"
-
-
-### -------------------  Download and Install Kibana  ------------------- 
-# Download the Kibana RPM Package 
-wget https://artifacts.elastic.co/downloads/kibana/kibana-6.3.2-x86_64.rpm
-sudo echo "12. Download the Kibana RPM Package "
-
-# Intall the Kibana with RPM
-sudo rpm --install kibana-6.3.2-x86_64.rpm
-sudo echo "13. Intall the Kibana with RPM"
-
-
-# configure Kibana to start automatically when the system boots up
-sudo /bin/systemctl daemon-reload
-sudo /bin/systemctl enable kibana.service
-sudo echo "14. configure Kibana to start automatically when the system boots up"
-
-# Kibana start the service  
-sudo systemctl start kibana.service
-# Wait for 25 Seconds 
-sleep 25s 
-sudo echo "15.  Kibana start the service  "
-
-sudo systemctl status kibana.service
-curl -X GET "localhost:5601"
-
-## Enable the Firewall to pass 80, 8888, 9200, 5601 
-sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-sudo iptables -I INPUT -p tcp --dport 8888 -j ACCEPT
-sudo iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-sudo iptables -I INPUT -p tcp --dport 9200 -j ACCEPT
-sudo iptables -I INPUT -p tcp --dport 5601 -j ACCEPT
+ 
