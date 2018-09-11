@@ -1,4 +1,10 @@
 #!/bin/bash
+
+### Script to install Java 1.8, Elasticsearch 6.3.2 and Kibana 6.3.2 on Red Hat 7.5 machine 
+## Reference [1] Elastic search RPM - https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html 
+### Reference [1] Kibana -  https://www.elastic.co/guide/en/kibana/current/rpm.html
+
+### -------------------  Red Hat System Update ------------------- 
 cd ~
 # Update one or all packages on your system 
 sudo yum update -y
@@ -10,8 +16,14 @@ sudo echo "2. Intall the Wget"
 
 # Install Curl on ReadHat
 sudo yum install curl -y
-sudo echo "2. a Intall the CURL"
+sudo echo "2.a Install Curl on ReadHat"
 
+# Install Nano on ReadHat
+sudo yum install nano -y
+sudo echo "2.b Install Nano on ReadHat"
+
+
+### -------------------  Install JDK ------------------- 
 # Java Installation , work from home dir 
 # Download RPM JDK 1.8 and accept license
 cd ~ 
@@ -30,15 +42,19 @@ export JAVA_HOME=/usr/java/jdk1.8.0_181-amd64/jre
 sudo sh -c "echo export JAVA_HOME=/usr/java/jdk1.8.0_181-amd64/jre >> /etc/environment"
 echo $JAVA_HOME
 sudo echo "6. Establish symbolic link for the Java_HOME"
+java -version
 
 # Remove JDK the downloaded .rpm
 cd ~
 rm jdk-8u181-linux-x64.rpm 
 sudo echo "7. Remove downloaded JDK RPM"
 
-# Download and install the RPM manually
+### -------------------  Download and Install Elastic Search ------------------- 
+# Download and install Elastic Search the RPM manually
 cd ~
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.2.rpm
+
+sudo echo "7. Download and install Elastic Search the RPM manually "
 
 # -------------------  Calculate the SHA 
 # wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.2.rpm.sha512
@@ -46,16 +62,51 @@ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.2.rp
 
 # Installation of the Elasticsearch 6.3.2 
 sudo rpm --install elasticsearch-6.3.2.rpm
-
+sudo echo "8. Installation of the Elasticsearch 6.3.2 "
 
 # To configure Elasticsearch to start automatically when the system boots up,
 sudo /bin/systemctl daemon-reload
 sudo /bin/systemctl enable elasticsearch.service
+sudo echo "9. Configure Elasticsearch to start automatically when the system boots up"
 
 # Start the Elasticsearch  Cluster
 sudo systemctl start elasticsearch.service
+# Wait for 25 Seconds 
+sleep 25s 
+sudo echo "10. Start the Elasticsearch  Cluster"
 
 # Check the status of the Cluster 
 sudo -i service elasticsearch status
-
+sudo echo "11. Check the status of the Cluster "
 curl -X GET "localhost:9200/"
+
+
+### -------------------  Download and Install Kibana  ------------------- 
+# Download the Kibana RPM Package 
+wget https://artifacts.elastic.co/downloads/kibana/kibana-6.3.2-x86_64.rpm
+sudo echo "12. Download the Kibana RPM Package "
+
+# Intall the Kibana with RPM
+sudo rpm --install kibana-6.3.2-x86_64.rpm
+sudo echo "13. Intall the Kibana with RPM"
+
+
+# configure Kibana to start automatically when the system boots up
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable kibana.service
+sudo echo "14. configure Kibana to start automatically when the system boots up"
+
+# Kibana start the service  
+sudo systemctl start kibana.service
+# Wait for 25 Seconds 
+sleep 25s 
+sudo echo "15.  Kibana start the service  "
+
+curl -X GET "localhost:5601"
+
+## Enable the Firewall to pass 80, 8888, 9200, 5601 
+sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+sudo iptables -I INPUT -p tcp --dport 8888 -j ACCEPT
+sudo iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+sudo iptables -I INPUT -p tcp --dport 9200 -j ACCEPT
+sudo iptables -I INPUT -p tcp --dport 5601 -j ACCEPT
