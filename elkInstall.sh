@@ -104,4 +104,10 @@ sudo echo "15.  Kibana start the service  "
 
 sudo systemctl status kibana.service
 curl -X GET "localhost:5601"
- 
+
+## Enable the Firewall to pass 80, 8888, 9200, 5601 
+sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+sudo iptables -I INPUT -p tcp --dport 8888 -j ACCEPT
+sudo iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+sudo iptables -I INPUT -p tcp --dport 9200 -j ACCEPT
+sudo iptables -I INPUT -p tcp --dport 5601 -j ACCEPT
