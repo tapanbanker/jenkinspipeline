@@ -8,6 +8,10 @@ sudo echo "1. Update one or all packages on your system "
 sudo yum install wget -y
 sudo echo "2. Intall the Wget"
 
+# Install Curl on ReadHat
+sudo yum install curl -y
+sudo echo "2. a Intall the CURL"
+
 # Java Installation , work from home dir 
 # Download RPM JDK 1.8 and accept license
 cd ~ 
