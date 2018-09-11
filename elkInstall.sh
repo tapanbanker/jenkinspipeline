@@ -76,7 +76,7 @@ sleep 25s
 sudo echo "10. Start the Elasticsearch  Cluster"
 
 # Check the status of the Cluster 
-sudo -i service elasticsearch status
+sudo systemctl status elasticsearch.service
 sudo echo "11. Check the status of the Cluster "
 curl -X GET "localhost:9200/"
 
@@ -102,6 +102,7 @@ sudo systemctl start kibana.service
 sleep 25s 
 sudo echo "15.  Kibana start the service  "
 
+sudo systemctl status kibana.service
 curl -X GET "localhost:5601"
 
 ## Enable the Firewall to pass 80, 8888, 9200, 5601 
